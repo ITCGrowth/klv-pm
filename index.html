@@ -1,301 +1,377 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>KLV.PM — Klever BK Project Management</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0e0e0f;--bg2:#161618;--bg3:#1e1e21;--bg4:#26262a;
-  --border:#2e2e33;--border2:#3a3a40;
-  --text:#e8e8ea;--text2:#9999a8;--text3:#5a5a68;
-  --accent:#00d4aa;--accent2:#0099cc;--accent3:#f5a623;
-  --red:#e24b4a;--green:#639922;--amber:#ba7517;--blue:#378add;
-  --font:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
-  --r:6px;
+  --ms-bg:#f3f2f1;--ms-surface:#ffffff;--ms-surface2:#faf9f8;
+  --ms-blue:#0078d4;--ms-blue-light:#deecf9;--ms-blue-mid:#106ebe;
+  --ms-border:#edebe9;--ms-border2:#c8c6c4;
+  --ms-text:#323130;--ms-text2:#605e5c;--ms-text3:#a19f9d;
+  --ms-red:#d13438;--ms-red-light:#fde7e9;
+  --ms-green:#107c10;--ms-green-light:#dff6dd;
+  --ms-amber:#c19c00;--ms-amber-light:#fff4ce;
+  --ms-purple:#5c2d91;--ms-purple-light:#e9d7f7;
+  --ms-teal:#008272;--ms-teal-light:#d2f4ea;
+  --ms-gray:#605e5c;--ms-gray-light:#f3f2f1;
+  --font:'Segoe UI',system-ui,sans-serif;
+  --r:4px;--r2:6px;
+  --shadow:0 1.6px 3.6px rgba(0,0,0,.13),0 0.3px 0.9px rgba(0,0,0,.11);
+  --shadow2:0 3.2px 7.2px rgba(0,0,0,.13),0 0.6px 1.8px rgba(0,0,0,.11);
 }
-body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
-.app{display:grid;grid-template-rows:48px 1fr;height:100vh}
-.topbar{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:16px}
-.logo{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent);letter-spacing:2px}
-.logo span{color:var(--text2)}
-.nav-tabs{display:flex;gap:2px;margin-left:8px}
-.nav-tab{padding:6px 14px;border-radius:var(--r);font-size:12px;cursor:pointer;color:var(--text2);border:none;background:none;font-family:var(--font);transition:all .15s}
-.nav-tab:hover{color:var(--text);background:var(--bg3)}
-.nav-tab.active{color:var(--accent);background:var(--bg3);border:1px solid var(--border2)}
-.badge{background:var(--accent);color:#000;font-size:10px;font-weight:500;padding:1px 5px;border-radius:10px;margin-left:4px;font-family:var(--mono)}
-.main{display:grid;grid-template-columns:220px 1fr;overflow:hidden}
-.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto}
-.sidebar-section{margin-bottom:20px}
-.sidebar-label{font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:2px;padding:0 16px;margin-bottom:8px;text-transform:uppercase}
-.sidebar-item{padding:7px 16px;cursor:pointer;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px;transition:all .15s;border-left:2px solid transparent}
-.sidebar-item:hover{color:var(--text);background:var(--bg3)}
-.sidebar-item.active{color:var(--accent);background:var(--bg3);border-left-color:var(--accent)}
-.sidebar-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.content{overflow-y:auto;padding:20px}
+body{font-family:var(--font);background:var(--ms-bg);color:var(--ms-text);font-size:14px;min-height:100vh}
+.app{display:flex;flex-direction:column;min-height:100vh;max-width:100vw}
+.topbar{background:var(--ms-blue);color:#fff;padding:0 16px;height:48px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.app-icon{width:24px;height:24px;background:rgba(255,255,255,.2);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+.app-title{font-size:15px;font-weight:600;color:#fff;letter-spacing:.2px}
+.app-subtitle{font-size:12px;color:rgba(255,255,255,.7);margin-left:4px}
+.topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.avatar{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
+.nav-bar{background:var(--ms-surface);border-bottom:1px solid var(--ms-border);display:flex;overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-item{padding:12px 16px;font-size:13px;color:var(--ms-text2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.nav-item:hover{color:var(--ms-blue);background:var(--ms-blue-light)}
+.nav-item.active{color:var(--ms-blue);border-bottom-color:var(--ms-blue);font-weight:500}
+.nav-count{background:var(--ms-blue-light);color:var(--ms-blue-mid);font-size:11px;padding:1px 6px;border-radius:10px;font-weight:500}
+.body{flex:1;display:flex;overflow:hidden}
+.sidebar{width:220px;background:var(--ms-surface);border-right:1px solid var(--ms-border);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+.sidebar-section{padding:8px 0}
+.sidebar-label{font-size:11px;color:var(--ms-text3);padding:8px 16px 4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.sidebar-item{padding:8px 16px;cursor:pointer;font-size:13px;color:var(--ms-text2);display:flex;align-items:center;gap:10px;transition:all .1s;border-radius:0}
+.sidebar-item:hover{background:var(--ms-blue-light);color:var(--ms-blue)}
+.sidebar-item.active{background:var(--ms-blue-light);color:var(--ms-blue);font-weight:500;border-left:3px solid var(--ms-blue)}
+.ws-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.content{flex:1;overflow-y:auto;padding:16px}
 .view{display:none}
 .view.active{display:block}
-.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.page-title{font-size:16px;font-weight:500;font-family:var(--mono);color:var(--text)}
-.page-title span{color:var(--text3)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
-.stat-label{font-size:11px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.stat-value{font-size:22px;font-weight:500;font-family:var(--mono)}
-.stat-sub{font-size:11px;color:var(--text3);margin-top:3px}
-.task-list{display:flex;flex-direction:column;gap:8px}
-.task-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;display:grid;grid-template-columns:24px 60px 1fr auto auto;align-items:center;gap:12px;transition:border-color .15s;cursor:pointer}
-.task-card:hover{border-color:var(--border2)}
-.task-card.selected{border-color:var(--accent)}
-.ws-code{font-family:var(--mono);font-size:11px;color:var(--text3)}
-.task-name{font-size:13px;color:var(--text)}
-.task-name small{display:block;font-size:11px;color:var(--text3);margin-top:2px}
-.assignee-pill{font-size:11px;padding:3px 8px;border-radius:10px;font-family:var(--mono);white-space:nowrap}
-.pill-jose{background:#1a2a1a;color:#639922;border:1px solid #2a3a2a}
-.pill-jabari{background:#1a1a2a;color:#378add;border:1px solid #2a2a3a}
-.status-badge{font-size:10px;padding:3px 8px;border-radius:3px;font-family:var(--mono);white-space:nowrap;cursor:pointer;border:none}
-.s-todo{background:#1e1e21;color:var(--text3);border:1px solid var(--border)}
-.s-inprogress{background:#1a2030;color:var(--blue);border:1px solid #1e3050}
-.s-blocked{background:#2a1515;color:var(--red);border:1px solid #3a2020}
-.s-done{background:#1a2a1a;color:var(--green);border:1px solid #2a3a2a}
-.s-waiting{background:#2a2015;color:var(--amber);border:1px solid #3a3020}
-.priority-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.p-high{background:var(--red)}
-.p-medium{background:var(--amber)}
-.p-low{background:var(--text3)}
-.section-header{font-size:11px;font-family:var(--mono);color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
-.section-header::after{content:'';flex:1;height:1px;background:var(--border)}
-.klv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
-.klv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;transition:border-color .15s}
-.klv-card:hover{border-color:var(--border2)}
-.klv-id{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:4px}
-.klv-name{font-size:12px;font-weight:500;color:var(--text);margin-bottom:8px}
-.klv-desc{font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:10px}
-.klv-footer{display:flex;align-items:center;justify-content:space-between}
-.progress-bar{height:3px;background:var(--border);border-radius:2px;flex:1;margin:0 10px}
-.progress-fill{height:100%;border-radius:2px;background:var(--accent);transition:width .3s}
-.progress-pct{font-family:var(--mono);font-size:10px;color:var(--text3)}
-.ai-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);display:flex;flex-direction:column;height:calc(100vh - 140px)}
-.ai-header{padding:12px 16px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--accent);display:flex;align-items:center;gap:8px}
-.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.ai-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.msg{max-width:85%;padding:10px 12px;border-radius:var(--r);font-size:13px;line-height:1.6}
-.msg-user{background:var(--bg4);border:1px solid var(--border2);align-self:flex-end;color:var(--text)}
-.msg-ai{background:var(--bg3);border:1px solid var(--border);align-self:flex-start;color:var(--text)}
-.msg-ai .msg-label{font-family:var(--mono);font-size:10px;color:var(--accent);margin-bottom:4px}
-.ai-input-row{padding:12px;border-top:1px solid var(--border);display:flex;gap:8px}
-.ai-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;color:var(--text);font-family:var(--font);font-size:13px;outline:none}
-.ai-input:focus{border-color:var(--accent)}
-.ai-send{background:var(--accent);border:none;border-radius:var(--r);padding:8px 14px;color:#000;font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;transition:opacity .15s}
-.ai-send:hover{opacity:.85}
-.ai-send:disabled{opacity:.4;cursor:not-allowed}
-.quick-prompts{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
-.qp{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:5px 10px;font-size:11px;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
-.qp:hover{border-color:var(--accent);color:var(--accent)}
-.tag{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:3px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
-.api-bar{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.api-bar label{font-family:var(--mono);font-size:11px;color:var(--text3);white-space:nowrap}
-.api-bar input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:6px 10px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none}
-.api-bar input:focus{border-color:var(--accent)}
-.api-save{background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r);padding:6px 12px;color:var(--text2);font-family:var(--mono);font-size:11px;cursor:pointer;white-space:nowrap}
-.api-save:hover{color:var(--accent);border-color:var(--accent)}
-.typing{display:flex;gap:4px;align-items:center;padding:4px 0}
-.typing span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:bounce .8s infinite}
+.stats-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.stat-card{background:var(--ms-surface);border:1px solid var(--ms-border);border-radius:var(--r2);padding:14px;box-shadow:var(--shadow)}
+.stat-label{font-size:11px;color:var(--ms-text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.stat-val{font-size:24px;font-weight:600;line-height:1}
+.stat-sub{font-size:11px;color:var(--ms-text3);margin-top:4px}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.page-title{font-size:18px;font-weight:600;color:var(--ms-text)}
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap}
+.filter-chip{padding:5px 12px;border-radius:16px;font-size:12px;cursor:pointer;border:1px solid var(--ms-border2);background:var(--ms-surface);color:var(--ms-text2);transition:all .1s;white-space:nowrap}
+.filter-chip:hover{border-color:var(--ms-blue);color:var(--ms-blue)}
+.filter-chip.active{background:var(--ms-blue);color:#fff;border-color:var(--ms-blue)}
+.ws-section{margin-bottom:20px}
+.ws-header{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--ms-surface);border:1px solid var(--ms-border);border-radius:var(--r2) var(--r2) 0 0;cursor:pointer;user-select:none}
+.ws-header:hover{background:var(--ms-surface2)}
+.ws-title{font-size:13px;font-weight:600;color:var(--ms-text)}
+.ws-badge{font-size:11px;color:var(--ms-text3);margin-left:auto}
+.ws-chevron{font-size:10px;color:var(--ms-text3);transition:transform .15s}
+.ws-chevron.open{transform:rotate(90deg)}
+.task-list{border:1px solid var(--ms-border);border-top:none;border-radius:0 0 var(--r2) var(--r2);overflow:hidden}
+.task-row{background:var(--ms-surface);display:grid;grid-template-columns:28px 1fr auto auto;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--ms-border);cursor:pointer;transition:background .1s}
+.task-row:last-child{border-bottom:none}
+.task-row:hover{background:#f8f7f6}
+.task-row.selected{background:var(--ms-blue-light)}
+.pri-bar{width:4px;height:36px;border-radius:2px;flex-shrink:0}
+.task-info{min-width:0}
+.task-name{font-size:13px;color:var(--ms-text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-desc{font-size:11px;color:var(--ms-text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.assignee-chip{font-size:11px;padding:3px 8px;border-radius:12px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.chip-jose{background:#dff6dd;color:#107c10}
+.chip-jabari{background:#deecf9;color:#0078d4}
+.status-pill{font-size:11px;padding:3px 10px;border-radius:12px;font-weight:500;cursor:pointer;border:none;white-space:nowrap;flex-shrink:0}
+.sp-todo{background:#f3f2f1;color:#605e5c}
+.sp-inprogress{background:#deecf9;color:#0078d4}
+.sp-blocked{background:#fde7e9;color:#d13438}
+.sp-done{background:#dff6dd;color:#107c10}
+.sp-waiting{background:#fff4ce;color:#c19c00}
+.klv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.klv-card{background:var(--ms-surface);border:1px solid var(--ms-border);border-radius:var(--r2);padding:16px;box-shadow:var(--shadow);transition:box-shadow .15s;border-top:3px solid var(--ms-blue)}
+.klv-card:hover{box-shadow:var(--shadow2)}
+.klv-id{font-size:11px;color:var(--ms-blue);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.klv-name{font-size:13px;font-weight:600;color:var(--ms-text);margin-bottom:6px}
+.klv-desc{font-size:12px;color:var(--ms-text2);line-height:1.5;margin-bottom:10px}
+.klv-trigger{display:inline-block;font-size:11px;background:var(--ms-blue-light);color:var(--ms-blue-mid);padding:3px 8px;border-radius:12px;font-weight:500;margin-bottom:10px}
+.progress-wrap{display:flex;align-items:center;gap:8px}
+.progress-track{flex:1;height:4px;background:var(--ms-border);border-radius:2px}
+.progress-fill{height:100%;border-radius:2px;background:var(--ms-blue);transition:width .3s}
+.progress-pct{font-size:11px;color:var(--ms-text3);min-width:28px;text-align:right}
+.ai-wrap{display:flex;flex-direction:column;gap:12px}
+.api-card{background:var(--ms-surface);border:1px solid var(--ms-border);border-radius:var(--r2);padding:14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.api-label{font-size:12px;color:var(--ms-text2);font-weight:600;white-space:nowrap}
+.api-input{flex:1;min-width:200px;border:1px solid var(--ms-border2);border-radius:var(--r);padding:7px 10px;font-size:13px;color:var(--ms-text);font-family:var(--font);outline:none;background:var(--ms-surface2)}
+.api-input:focus{border-color:var(--ms-blue);box-shadow:0 0 0 2px rgba(0,120,212,.15)}
+.ms-btn{background:var(--ms-blue);border:none;border-radius:var(--r);padding:7px 14px;color:#fff;font-size:13px;font-family:var(--font);cursor:pointer;font-weight:500;white-space:nowrap;transition:background .1s}
+.ms-btn:hover{background:var(--ms-blue-mid)}
+.ms-btn-outline{background:var(--ms-surface);border:1px solid var(--ms-border2);border-radius:var(--r);padding:7px 14px;color:var(--ms-text2);font-size:13px;font-family:var(--font);cursor:pointer;font-weight:500;white-space:nowrap;transition:all .1s}
+.ms-btn-outline:hover{border-color:var(--ms-blue);color:var(--ms-blue);background:var(--ms-blue-light)}
+.key-status{font-size:12px;color:var(--ms-green)}
+.chat-panel{background:var(--ms-surface);border:1px solid var(--ms-border);border-radius:var(--r2);box-shadow:var(--shadow);display:flex;flex-direction:column;height:480px}
+.chat-header{padding:12px 16px;border-bottom:1px solid var(--ms-border);display:flex;align-items:center;gap:8px}
+.chat-dot{width:8px;height:8px;border-radius:50%;background:var(--ms-green);flex-shrink:0}
+.chat-title{font-size:13px;font-weight:600;color:var(--ms-text)}
+.chat-sub{font-size:12px;color:var(--ms-text3)}
+.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:82%;padding:10px 14px;border-radius:var(--r2);font-size:13px;line-height:1.6}
+.msg-user{background:var(--ms-blue);color:#fff;align-self:flex-end;border-radius:var(--r2) var(--r2) 4px var(--r2)}
+.msg-ai{background:var(--ms-surface2);border:1px solid var(--ms-border);align-self:flex-start;color:var(--ms-text);border-radius:var(--r2) var(--r2) var(--r2) 4px}
+.msg-ai-label{font-size:10px;color:var(--ms-blue);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.quick-row{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;border-top:1px solid var(--ms-border)}
+.qchip{background:var(--ms-surface2);border:1px solid var(--ms-border);border-radius:12px;padding:5px 12px;font-size:12px;color:var(--ms-text2);cursor:pointer;transition:all .1s;font-family:var(--font)}
+.qchip:hover{border-color:var(--ms-blue);color:var(--ms-blue);background:var(--ms-blue-light)}
+.chat-input-row{padding:10px 12px;border-top:1px solid var(--ms-border);display:flex;gap:8px}
+.chat-input{flex:1;border:1px solid var(--ms-border2);border-radius:var(--r);padding:8px 12px;font-size:13px;color:var(--ms-text);font-family:var(--font);outline:none;background:var(--ms-surface2)}
+.chat-input:focus{border-color:var(--ms-blue);box-shadow:0 0 0 2px rgba(0,120,212,.15)}
+.typing{display:flex;gap:4px;align-items:center;padding:2px 0}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--ms-blue);animation:tb .8s infinite}
 .typing span:nth-child(2){animation-delay:.15s}
 .typing span:nth-child(3){animation-delay:.3s}
-@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+@keyframes tb{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}}
+@media(max-width:640px){
+  .sidebar{display:none}
+  .stats-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .task-row{grid-template-columns:20px 1fr auto}
+  .task-row .assignee-chip{display:none}
+  .klv-grid{grid-template-columns:1fr}
+  .content{padding:12px}
+  .page-title{font-size:16px}
+  .api-card{flex-direction:column;align-items:stretch}
+  .api-input{min-width:unset}
+}
 </style>
-</head>
-<body>
+
 <div class="app">
   <div class="topbar">
-    <div class="logo">KLV<span>.</span>PM</div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" onclick="switchView('tasks')">Tasks</button>
-      <button class="nav-tab" onclick="switchView('klv')">KLV Functions</button>
-      <button class="nav-tab" onclick="switchView('ai')">Ask Claude <span class="badge">AI</span></button>
+    <div class="app-icon">K</div>
+    <div>
+      <span class="app-title">KLV.PM</span>
+      <span class="app-subtitle">Klever BK LLC</span>
+    </div>
+    <div class="topbar-right">
+      <div class="avatar">JN</div>
+      <div class="avatar" style="background:rgba(255,255,255,.15)">JB</div>
     </div>
   </div>
-  <div class="main">
+  <div class="nav-bar">
+    <div class="nav-item active" onclick="switchView('tasks',this)">
+      Tasks <span class="nav-count" id="nc-tasks">35</span>
+    </div>
+    <div class="nav-item" onclick="switchView('klv',this)">
+      KLV Functions <span class="nav-count">13</span>
+    </div>
+    <div class="nav-item" onclick="switchView('ai',this)">
+      Ask Claude <span class="nav-count" style="background:#dff6dd;color:#107c10">AI</span>
+    </div>
+  </div>
+  <div class="body">
     <div class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-label">Workstreams</div>
-        <div class="sidebar-item active" onclick="filterWS('all')"><span class="sidebar-dot" style="background:var(--accent)"></span>All Tasks</div>
-        <div class="sidebar-item" onclick="filterWS('WS1')"><span class="sidebar-dot" style="background:#378add"></span>WS1 Infrastructure</div>
-        <div class="sidebar-item" onclick="filterWS('WS2')"><span class="sidebar-dot" style="background:#639922"></span>WS2 Automation</div>
-        <div class="sidebar-item" onclick="filterWS('WS3')"><span class="sidebar-dot" style="background:#d4537e"></span>WS3 Portal</div>
-        <div class="sidebar-item" onclick="filterWS('WS4')"><span class="sidebar-dot" style="background:#f5a623"></span>WS4 WhatsApp AI</div>
-        <div class="sidebar-item" onclick="filterWS('WS5')"><span class="sidebar-dot" style="background:#ba7517"></span>WS5 Testing</div>
-        <div class="sidebar-item" onclick="filterWS('WS6')"><span class="sidebar-dot" style="background:#9999a8"></span>WS6 Compliance</div>
+        <div class="sidebar-item active" onclick="filterWS('all',this)"><span class="ws-dot" style="background:#0078d4"></span>All tasks</div>
+        <div class="sidebar-item" onclick="filterWS('WS1',this)"><span class="ws-dot" style="background:#0078d4"></span>WS1 Infrastructure</div>
+        <div class="sidebar-item" onclick="filterWS('WS2',this)"><span class="ws-dot" style="background:#107c10"></span>WS2 Automation</div>
+        <div class="sidebar-item" onclick="filterWS('WS3',this)"><span class="ws-dot" style="background:#5c2d91"></span>WS3 Portal</div>
+        <div class="sidebar-item" onclick="filterWS('WS4',this)"><span class="ws-dot" style="background:#c19c00"></span>WS4 WhatsApp AI</div>
+        <div class="sidebar-item" onclick="filterWS('WS5',this)"><span class="ws-dot" style="background:#008272"></span>WS5 Testing</div>
+        <div class="sidebar-item" onclick="filterWS('WS6',this)"><span class="ws-dot" style="background:#605e5c"></span>WS6 Compliance</div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-label">Assignee</div>
-        <div class="sidebar-item" onclick="filterAssignee('all')"><span class="sidebar-dot" style="background:var(--text3)"></span>Everyone</div>
-        <div class="sidebar-item" onclick="filterAssignee('Jose Negron')"><span class="sidebar-dot" style="background:#639922"></span>Jose Negron</div>
-        <div class="sidebar-item" onclick="filterAssignee('Jabari Blash')"><span class="sidebar-dot" style="background:#378add"></span>Jabari Blash</div>
+        <div class="sidebar-item" onclick="filterAssignee('all',this)"><div style="width:24px;height:24px;border-radius:50%;background:#f3f2f1;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#605e5c">ALL</div>Everyone</div>
+        <div class="sidebar-item" onclick="filterAssignee('Jose Negron',this)"><div style="width:24px;height:24px;border-radius:50%;background:#dff6dd;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#107c10">JN</div>Jose Negron</div>
+        <div class="sidebar-item" onclick="filterAssignee('Jabari Blash',this)"><div style="width:24px;height:24px;border-radius:50%;background:#deecf9;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#0078d4">JB</div>Jabari Blash</div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-label">Status</div>
-        <div class="sidebar-item" onclick="filterStatus('all')"><span class="sidebar-dot" style="background:var(--text3)"></span>All Status</div>
-        <div class="sidebar-item" onclick="filterStatus('todo')"><span class="sidebar-dot" style="background:var(--text3)"></span>To Do</div>
-        <div class="sidebar-item" onclick="filterStatus('inprogress')"><span class="sidebar-dot" style="background:var(--blue)"></span>In Progress</div>
-        <div class="sidebar-item" onclick="filterStatus('blocked')"><span class="sidebar-dot" style="background:var(--red)"></span>Blocked</div>
-        <div class="sidebar-item" onclick="filterStatus('waiting')"><span class="sidebar-dot" style="background:var(--amber)"></span>Waiting</div>
-        <div class="sidebar-item" onclick="filterStatus('done')"><span class="sidebar-dot" style="background:var(--green)"></span>Done</div>
+        <div class="sidebar-item" onclick="filterStatus('all',this)">All status</div>
+        <div class="sidebar-item" onclick="filterStatus('todo',this)">To do</div>
+        <div class="sidebar-item" onclick="filterStatus('inprogress',this)">In progress</div>
+        <div class="sidebar-item" onclick="filterStatus('blocked',this)" style="color:#d13438">Blocked</div>
+        <div class="sidebar-item" onclick="filterStatus('waiting',this)">Waiting</div>
+        <div class="sidebar-item" onclick="filterStatus('done',this)" style="color:#107c10">Done</div>
       </div>
     </div>
     <div class="content">
       <div id="view-tasks" class="view active">
-        <div class="page-header"><div class="page-title">Task Board <span>/ Klever BK LLC</span></div></div>
-        <div class="stats-grid" id="stats-grid"></div>
-        <div class="task-list" id="task-list"></div>
+        <div class="page-header">
+          <div class="page-title">Task board</div>
+          <div class="filter-bar" id="filter-bar">
+            <button class="filter-chip active" onclick="filterStatus('all',this)">All</button>
+            <button class="filter-chip" onclick="filterStatus('inprogress',this)">In progress</button>
+            <button class="filter-chip" onclick="filterStatus('blocked',this)">Blocked</button>
+            <button class="filter-chip" onclick="filterStatus('waiting',this)">Waiting</button>
+            <button class="filter-chip" onclick="filterStatus('done',this)">Done</button>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Total</div><div class="stat-val" id="st-total">35</div><div class="stat-sub">tasks</div></div>
+          <div class="stat-card"><div class="stat-label">Done</div><div class="stat-val" style="color:#107c10" id="st-done">3</div><div class="stat-sub" id="st-pct">9% complete</div></div>
+          <div class="stat-card"><div class="stat-label">In progress</div><div class="stat-val" style="color:#0078d4" id="st-prog">3</div><div class="stat-sub">active</div></div>
+          <div class="stat-card"><div class="stat-label">Blocked</div><div class="stat-val" style="color:#d13438" id="st-block">2</div><div class="stat-sub">needs attention</div></div>
+        </div>
+        <div id="task-board"></div>
       </div>
       <div id="view-klv" class="view">
-        <div class="page-header"><div class="page-title">KLV Functions <span>/ 13 Scenarios</span></div></div>
+        <div class="page-header"><div class="page-title">KLV functions</div></div>
         <div class="klv-grid" id="klv-grid"></div>
       </div>
       <div id="view-ai" class="view">
-        <div class="page-header"><div class="page-title">Ask Claude <span>/ AI Project Assistant</span></div></div>
-        <div class="api-bar">
-          <label>API KEY</label>
-          <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." />
-          <button class="api-save" onclick="saveKey()">Save Key</button>
-          <span id="key-status" style="font-family:var(--mono);font-size:11px;color:var(--text3)"></span>
-        </div>
-        <div class="ai-panel">
-          <div class="ai-header"><span class="ai-dot"></span>Claude — Klever BK context loaded</div>
-          <div class="ai-messages" id="ai-messages">
-            <div class="msg msg-ai"><div class="msg-label">CLAUDE</div>Hey Jose. I have full context on Klever BK — all 13 KLV functions, your WS task backlog, the 30-day sprint, and the tech stack. Enter your API key above to get started.</div>
+        <div class="page-header"><div class="page-title">Ask Claude</div></div>
+        <div class="ai-wrap">
+          <div class="api-card">
+            <span class="api-label">Anthropic API key</span>
+            <input class="api-input" type="password" id="api-key" placeholder="sk-ant-api03-..."/>
+            <button class="ms-btn" onclick="saveKey()">Save</button>
+            <span class="key-status" id="key-status"></span>
           </div>
-          <div class="quick-prompts">
-            <button class="qp" onclick="sendQuick('What tasks are currently blocked?')">blocked tasks</button>
-            <button class="qp" onclick="sendQuick('Summarize KLV-04 monthly report function')">KLV-04 summary</button>
-            <button class="qp" onclick="sendQuick('What should Jose work on next?')">what to build next</button>
-            <button class="qp" onclick="sendQuick('What is Jabari responsible for?')">Jabari tasks</button>
-            <button class="qp" onclick="sendQuick('How many tasks are done vs remaining?')">sprint progress</button>
-          </div>
-          <div class="ai-input-row">
-            <input class="ai-input" id="ai-input" placeholder="Ask about tasks, KLV functions, sprint status..." onkeydown="if(event.key==='Enter')sendAI()"/>
-            <button class="ai-send" id="ai-send" onclick="sendAI()">Send</button>
+          <div class="chat-panel">
+            <div class="chat-header">
+              <div class="chat-dot"></div>
+              <div>
+                <div class="chat-title">Claude — Klever BK assistant</div>
+                <div class="chat-sub">Full project context loaded</div>
+              </div>
+            </div>
+            <div class="chat-messages" id="chat-msgs">
+              <div class="msg msg-ai"><div class="msg-ai-label">Claude</div>Hi Jose. I have full context on Klever BK — all 13 KLV functions, WS tasks, and the 30-day sprint. Enter your API key and ask me anything.</div>
+            </div>
+            <div class="quick-row">
+              <button class="qchip" onclick="sendQ('What tasks are blocked?')">blocked tasks</button>
+              <button class="qchip" onclick="sendQ('What should Jose build next?')">next priority</button>
+              <button class="qchip" onclick="sendQ('Summarize KLV-04')">KLV-04</button>
+              <button class="qchip" onclick="sendQ('What is Jabari responsible for?')">Jabari tasks</button>
+              <button class="qchip" onclick="sendQ('Sprint progress summary')">sprint status</button>
+            </div>
+            <div class="chat-input-row">
+              <input class="chat-input" id="chat-in" placeholder="Ask about tasks, functions, sprint..." onkeydown="if(event.key==='Enter')sendAI()"/>
+              <button class="ms-btn" id="ai-btn" onclick="sendAI()">Send</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <script>
 const TASKS=[
-  {id:'WS101',ws:'WS1',name:'Firebase project setup',desc:'Init Firebase project, configure Firestore, Auth, Storage, Hosting',assignee:'Jose Negron',status:'done',priority:'high'},
-  {id:'WS102',ws:'WS1',name:'Google Cloud Functions scaffold',desc:'Setup 2nd gen Cloud Functions, Secret Manager integration',assignee:'Jose Negron',status:'done',priority:'high'},
+  {id:'WS101',ws:'WS1',name:'Firebase project setup',desc:'Init Firebase, configure Firestore, Auth, Storage, Hosting',assignee:'Jose Negron',status:'done',priority:'high'},
+  {id:'WS102',ws:'WS1',name:'Cloud Functions scaffold',desc:'Setup 2nd gen Cloud Functions, Secret Manager integration',assignee:'Jose Negron',status:'done',priority:'high'},
   {id:'WS103',ws:'WS1',name:'Google Workspace SAML SSO',desc:'Configure SAML 2.0 for employee Firebase Auth logins',assignee:'Jose Negron',status:'inprogress',priority:'high'},
-  {id:'WS104',ws:'WS1',name:'Stripe account + webhook config',desc:'Setup Stripe, configure webhook endpoints for KLV-09',assignee:'Jabari Blash',status:'waiting',priority:'high'},
+  {id:'WS104',ws:'WS1',name:'Stripe account + webhooks',desc:'Setup Stripe, configure webhook endpoints for KLV-09',assignee:'Jabari Blash',status:'waiting',priority:'high'},
   {id:'WS105',ws:'WS1',name:'Twilio WhatsApp sandbox',desc:'Setup Twilio account, configure WhatsApp sandbox number',assignee:'Jabari Blash',status:'waiting',priority:'high'},
   {id:'WS106',ws:'WS1',name:'Xero + HubDoc accounts',desc:'Setup Xero org, HubDoc account, configure API access',assignee:'Jabari Blash',status:'blocked',priority:'high'},
   {id:'WS107',ws:'WS1',name:'DocuSign account setup',desc:'Create DocuSign developer account, configure envelope templates',assignee:'Jabari Blash',status:'todo',priority:'medium'},
-  {id:'WS201',ws:'WS2',name:'KLV-00 Error logger',desc:'Utility function used by all other KLV functions for error logging',assignee:'Jose Negron',status:'done',priority:'high'},
+  {id:'WS201',ws:'WS2',name:'KLV-00 Error logger',desc:'Utility function used by all other KLV functions',assignee:'Jose Negron',status:'done',priority:'high'},
   {id:'WS202',ws:'WS2',name:'KLV-01 Receipt processor',desc:'Inbound WhatsApp receipts via Twilio webhook to HubDoc',assignee:'Jose Negron',status:'inprogress',priority:'high'},
   {id:'WS203',ws:'WS2',name:'KLV-02 Daily reconciliation',desc:'Daily 7am — auto-offboards non-paying suspended clients',assignee:'Jose Negron',status:'todo',priority:'high'},
-  {id:'WS204',ws:'WS2',name:'KLV-03 Weekly reminder',desc:'Monday mornings — sends receipt submission reminders via WhatsApp',assignee:'Jose Negron',status:'todo',priority:'medium'},
-  {id:'WS205',ws:'WS2',name:'KLV-04 Monthly report',desc:'Daily 6am — enqueues Cloud Tasks, pulls Xero, calls Claude API, PDF delivery',assignee:'Jose Negron',status:'todo',priority:'high'},
+  {id:'WS204',ws:'WS2',name:'KLV-03 Weekly reminder',desc:'Monday mornings — receipt submission reminders via WhatsApp',assignee:'Jose Negron',status:'todo',priority:'medium'},
+  {id:'WS205',ws:'WS2',name:'KLV-04 Monthly report',desc:'Daily 6am — Cloud Tasks, Xero pull, Claude API, PDF delivery',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS206',ws:'WS2',name:'KLV-05 Quarterly snapshot',desc:'Quarterly extended trend report via WhatsApp',assignee:'Jose Negron',status:'todo',priority:'medium'},
-  {id:'WS207',ws:'WS2',name:'KLV-06 Onboarding',desc:'DocuSign signed provisions Firestore, Xero, Stripe, HubDoc, WhatsApp',assignee:'Jose Negron',status:'todo',priority:'high'},
+  {id:'WS207',ws:'WS2',name:'KLV-06 Onboarding',desc:'DocuSign signed — provisions Firestore, Xero, Stripe, HubDoc, WhatsApp',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS208',ws:'WS2',name:'KLV-07 Suspension/Reactivation',desc:'Handles suspension and reactivation triggered by KLV-09 or admin',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS209',ws:'WS2',name:'KLV-08 Offboarding',desc:'Full client offboarding triggered by systems admin',assignee:'Jose Negron',status:'todo',priority:'medium'},
   {id:'WS210',ws:'WS2',name:'KLV-09 Payment monitor',desc:'Stripe webhooks — payment failure escalation cycle',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS211',ws:'WS2',name:'KLV-10 Revenue sync',desc:'Syncs Stripe payment events into Klever own Xero org',assignee:'Jose Negron',status:'todo',priority:'medium'},
-  {id:'WS212',ws:'WS2',name:'KLV-11 Testimonial engine',desc:'Fires 90 days post-onboarding to request client testimonials',assignee:'Jose Negron',status:'todo',priority:'low'},
+  {id:'WS212',ws:'WS2',name:'KLV-11 Testimonial engine',desc:'Fires 90 days post-onboarding — testimonial request via WhatsApp',assignee:'Jose Negron',status:'todo',priority:'low'},
   {id:'WS213',ws:'WS2',name:'KLV-13 WhatsApp AI',desc:'Inbound text queries — Xero context — Claude API — WhatsApp response',assignee:'Jose Negron',status:'todo',priority:'high'},
-  {id:'WS301',ws:'WS3',name:'React portal scaffold',desc:'Vite + TypeScript + Tailwind setup, Firebase Auth integration',assignee:'Jose Negron',status:'inprogress',priority:'high'},
-  {id:'WS302',ws:'WS3',name:'Client dashboard screen',desc:'Role 1 — Dashboard with KPIs, recent transactions, report access',assignee:'Jose Negron',status:'todo',priority:'high'},
-  {id:'WS303',ws:'WS3',name:'Transactions screen',desc:'Client transaction list with filters, search, categorization view',assignee:'Jose Negron',status:'todo',priority:'high'},
+  {id:'WS301',ws:'WS3',name:'React portal scaffold',desc:'Vite + TypeScript + Tailwind, Firebase Auth integration',assignee:'Jose Negron',status:'inprogress',priority:'high'},
+  {id:'WS302',ws:'WS3',name:'Client dashboard screen',desc:'Role 1 — KPIs, recent transactions, report access',assignee:'Jose Negron',status:'todo',priority:'high'},
+  {id:'WS303',ws:'WS3',name:'Transactions screen',desc:'Client transaction list with filters and categorization',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS304',ws:'WS3',name:'Reports screen',desc:'PDF report viewer, download history, monthly/quarterly tabs',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS305',ws:'WS3',name:'Ask Klever screen',desc:'WhatsApp AI interface in portal — KLV-13 integration',assignee:'Jose Negron',status:'todo',priority:'high'},
-  {id:'WS306',ws:'WS3',name:'Support admin portal',desc:'Role 2 — Client management, ticket handling, manual overrides',assignee:'Jose Negron',status:'todo',priority:'medium'},
-  {id:'WS307',ws:'WS3',name:'Executive dashboard',desc:'Role 3 — Aggregate revenue, client count, MRR, churn metrics',assignee:'Jose Negron',status:'todo',priority:'medium'},
+  {id:'WS306',ws:'WS3',name:'Support admin portal',desc:'Role 2 — Client management, ticket handling, overrides',assignee:'Jose Negron',status:'todo',priority:'medium'},
+  {id:'WS307',ws:'WS3',name:'Executive dashboard',desc:'Role 3 — Aggregate revenue, client count, MRR, churn',assignee:'Jose Negron',status:'todo',priority:'medium'},
   {id:'WS308',ws:'WS3',name:'Systems admin portal',desc:'Role 4 — Full access, client CRUD, KLV trigger controls',assignee:'Jose Negron',status:'todo',priority:'high'},
-  {id:'WS401',ws:'WS4',name:'KLV-13 Claude prompt engineering',desc:'Build USVI/PR context prompts, bilingual support, Xero data injection',assignee:'Jose Negron',status:'todo',priority:'high'},
-  {id:'WS402',ws:'WS4',name:'WhatsApp AI response testing',desc:'End-to-end testing of WhatsApp AI query flow with real Xero data',assignee:'Jose Negron',status:'todo',priority:'high'},
+  {id:'WS401',ws:'WS4',name:'KLV-13 prompt engineering',desc:'USVI/PR context prompts, bilingual support, Xero data injection',assignee:'Jose Negron',status:'todo',priority:'high'},
+  {id:'WS402',ws:'WS4',name:'WhatsApp AI testing',desc:'End-to-end testing of AI query flow with real Xero data',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS501',ws:'WS5',name:'End-to-end integration testing',desc:'Full KLV scenario testing with pilot client data',assignee:'Jose Negron',status:'todo',priority:'high'},
   {id:'WS502',ws:'WS5',name:'Pilot client onboarding',desc:'3 trusted-contact pilot clients — Day 28 go-live target',assignee:'Jabari Blash',status:'todo',priority:'high'},
-  {id:'WS601',ws:'WS6',name:'USVI business license',desc:'Required to unlock all legal docs, vendor agreements, Xero partnership',assignee:'Jabari Blash',status:'blocked',priority:'high'},
+  {id:'WS601',ws:'WS6',name:'USVI business license',desc:'Gates all legal docs, vendor agreements, Xero partnership',assignee:'Jabari Blash',status:'blocked',priority:'high'},
   {id:'WS602',ws:'WS6',name:'Client engagement letter',desc:'DocuSign template for client onboarding agreement',assignee:'Jabari Blash',status:'waiting',priority:'high'},
-  {id:'WS603',ws:'WS6',name:'FTC Safeguards compliance',desc:'FTC Safeguards Rule, IRS Pub 4557, PCI SAQ A documentation',assignee:'Jabari Blash',status:'todo',priority:'medium'},
+  {id:'WS603',ws:'WS6',name:'FTC Safeguards compliance',desc:'FTC Safeguards Rule, IRS Pub 4557, PCI SAQ A docs',assignee:'Jabari Blash',status:'todo',priority:'medium'},
 ];
 const KLV=[
-  {id:'KLV-00',name:'klv00ErrorLogger',desc:'Utility error logger used by all other functions. Writes to error_log collection in Firestore.',trigger:'Internal utility',pct:100},
-  {id:'KLV-01',name:'klv01ReceiptProcessor',desc:'Handles inbound WhatsApp receipts. Triggered by Twilio webhook. Routes to HubDoc via email.',trigger:'Twilio webhook',pct:40},
-  {id:'KLV-02',name:'klv02DailyReconciliation',desc:'Runs daily at 7am. Checks Firestore for suspended clients past grace period and auto-offboards.',trigger:'Cloud Scheduler 7am',pct:0},
-  {id:'KLV-03',name:'klv03WeeklyReminder',desc:'Runs Monday mornings. Sends receipt submission reminders to all active clients via WhatsApp.',trigger:'Cloud Scheduler Mon',pct:0},
-  {id:'KLV-04',name:'klv04MonthlyReport',desc:'Runs daily at 6am. Enqueues Cloud Task per client whose report day matches today. Pulls Xero, calls Claude, assembles PDF, delivers via WhatsApp.',trigger:'Cloud Scheduler 6am',pct:0},
-  {id:'KLV-05',name:'klv05QuarterlySnapshot',desc:'Runs quarterly. Delivers extended trend report with YoY comparisons and business health scoring.',trigger:'Cloud Scheduler quarterly',pct:0},
-  {id:'KLV-06',name:'klv06Onboarding',desc:'Fires when DocuSign envelope is signed. Provisions full client account across Firestore, Xero, Stripe, HubDoc, and WhatsApp.',trigger:'DocuSign webhook',pct:0},
-  {id:'KLV-07',name:'klv07SuspensionReactivation',desc:'Handles client suspension and reactivation. Triggered by KLV-09 payment failure cycle or systems admin action.',trigger:'KLV-09 / Admin',pct:0},
-  {id:'KLV-08',name:'klv08Offboarding',desc:'Handles full client offboarding. Closes Xero org, cancels Stripe, removes WhatsApp, archives Firestore.',trigger:'Systems admin',pct:0},
-  {id:'KLV-09',name:'klv09PaymentMonitor',desc:'Listens to Stripe webhooks. Manages the full payment failure escalation cycle — grace period, warnings, suspension trigger.',trigger:'Stripe webhook',pct:0},
-  {id:'KLV-10',name:'klv10RevenueSync',desc:'Syncs Stripe payment events into Klever own Xero org for internal bookkeeping and revenue reporting.',trigger:'Stripe webhook',pct:0},
-  {id:'KLV-11',name:'klv11TestimonialEngine',desc:'Fires 90 days after client onboarding. Sends testimonial request via WhatsApp with Google Review link.',trigger:'Cloud Tasks delayed',pct:0},
-  {id:'KLV-13',name:'klv13WhatsAppAI',desc:'Handles inbound text queries via WhatsApp and portal Ask Klever screen. Pulls Xero context, calls Claude API, responds in client language.',trigger:'Twilio webhook / Portal',pct:0},
+  {id:'KLV-00',name:'klv00ErrorLogger',desc:'Utility error logger used by all other functions. Writes to error_log in Firestore.',trigger:'Internal utility',pct:100},
+  {id:'KLV-01',name:'klv01ReceiptProcessor',desc:'Handles inbound WhatsApp receipts via Twilio webhook. Routes to HubDoc via email.',trigger:'Twilio webhook',pct:40},
+  {id:'KLV-02',name:'klv02DailyReconciliation',desc:'Runs daily at 7am. Auto-offboards non-paying suspended clients past grace period.',trigger:'Cloud Scheduler 7am',pct:0},
+  {id:'KLV-03',name:'klv03WeeklyReminder',desc:'Runs Monday mornings. Sends receipt submission reminders to active clients.',trigger:'Cloud Scheduler Mon',pct:0},
+  {id:'KLV-04',name:'klv04MonthlyReport',desc:'Runs daily at 6am. Enqueues Cloud Task per client, pulls Xero, calls Claude, assembles PDF, delivers via WhatsApp.',trigger:'Cloud Scheduler 6am',pct:0},
+  {id:'KLV-05',name:'klv05QuarterlySnapshot',desc:'Runs quarterly. Extended trend report with YoY comparisons and health scoring.',trigger:'Cloud Scheduler quarterly',pct:0},
+  {id:'KLV-06',name:'klv06Onboarding',desc:'Fires on DocuSign envelope signed. Provisions Firestore, Xero, Stripe, HubDoc, WhatsApp.',trigger:'DocuSign webhook',pct:0},
+  {id:'KLV-07',name:'klv07SuspensionReactivation',desc:'Handles suspension and reactivation triggered by KLV-09 or systems admin.',trigger:'KLV-09 / Admin',pct:0},
+  {id:'KLV-08',name:'klv08Offboarding',desc:'Full client offboarding. Closes Xero org, cancels Stripe, removes WhatsApp, archives Firestore.',trigger:'Systems admin',pct:0},
+  {id:'KLV-09',name:'klv09PaymentMonitor',desc:'Listens to Stripe webhooks. Manages payment failure escalation cycle with grace period and suspension trigger.',trigger:'Stripe webhook',pct:0},
+  {id:'KLV-10',name:'klv10RevenueSync',desc:'Syncs Stripe payment events into Klever own Xero org for internal bookkeeping.',trigger:'Stripe webhook',pct:0},
+  {id:'KLV-11',name:'klv11TestimonialEngine',desc:'Fires 90 days after onboarding. Sends testimonial request via WhatsApp with Google Review link.',trigger:'Cloud Tasks delayed',pct:0},
+  {id:'KLV-13',name:'klv13WhatsAppAI',desc:'Handles inbound text queries via WhatsApp and portal. Pulls Xero context, calls Claude API, responds in client language (en/es).',trigger:'Twilio webhook / Portal',pct:0},
 ];
-let wsFilter='all',assigneeFilter='all',statusFilter='all';
+const WS_COLORS={WS1:'#0078d4',WS2:'#107c10',WS3:'#5c2d91',WS4:'#c19c00',WS5:'#008272',WS6:'#605e5c'};
+const WS_LABELS={WS1:'Infrastructure',WS2:'Automation',WS3:'Portal',WS4:'WhatsApp AI',WS5:'Testing/Launch',WS6:'Compliance'};
+const STATUS_LABEL={todo:'To do',inprogress:'In progress',blocked:'Blocked',done:'Done',waiting:'Waiting'};
+const STATUS_CLASS={todo:'sp-todo',inprogress:'sp-inprogress',blocked:'sp-blocked',done:'sp-done',waiting:'sp-waiting'};
+const PRI_COLOR={high:'#d13438',medium:'#c19c00',low:'#a19f9d'};
+let wsF='all',asF='all',stF='all';
 let apiKey=localStorage.getItem('klv_api_key')||'';
-if(apiKey){document.addEventListener('DOMContentLoaded',()=>{const i=document.getElementById('api-key-input');if(i)i.value=apiKey;updateKeyStatus();})}
-function saveKey(){apiKey=document.getElementById('api-key-input').value.trim();localStorage.setItem('klv_api_key',apiKey);updateKeyStatus();}
-function updateKeyStatus(){const el=document.getElementById('key-status');if(!el)return;el.textContent=apiKey?'key saved':'no key set';el.style.color=apiKey?'var(--green)':'var(--text3)';}
-function statusClass(s){return 's-'+s}
-function statusLabel(s){return{todo:'TO DO',inprogress:'IN PROGRESS',blocked:'BLOCKED',done:'DONE',waiting:'WAITING'}[s]||s}
-function assigneeClass(a){return a==='Jose Negron'?'pill-jose':'pill-jabari'}
-function wsColor(ws){return{WS1:'#378add',WS2:'#639922',WS3:'#d4537e',WS4:'#f5a623',WS5:'#ba7517',WS6:'#9999a8'}[ws]||'#9999a8'}
+let aiHistory=[];
+
 function getFiltered(){
   return TASKS.filter(t=>{
-    if(wsFilter!=='all'&&!t.id.startsWith(wsFilter))return false;
-    if(assigneeFilter!=='all'&&t.assignee!==assigneeFilter)return false;
-    if(statusFilter!=='all'&&t.status!==statusFilter)return false;
+    if(wsF!=='all'&&!t.id.startsWith(wsF))return false;
+    if(asF!=='all'&&t.assignee!==asF)return false;
+    if(stF!=='all'&&t.status!==stF)return false;
     return true;
   });
 }
 function renderStats(){
   const done=TASKS.filter(t=>t.status==='done').length;
-  const inprog=TASKS.filter(t=>t.status==='inprogress').length;
-  const blocked=TASKS.filter(t=>t.status==='blocked').length;
+  const prog=TASKS.filter(t=>t.status==='inprogress').length;
+  const blk=TASKS.filter(t=>t.status==='blocked').length;
   const pct=Math.round(done/TASKS.length*100);
-  document.getElementById('stats-grid').innerHTML=`
-    <div class="stat-card"><div class="stat-label">Total Tasks</div><div class="stat-value" style="color:var(--text)">${TASKS.length}</div><div class="stat-sub">across 6 workstreams</div></div>
-    <div class="stat-card"><div class="stat-label">Done</div><div class="stat-value" style="color:#639922">${done}</div><div class="stat-sub">${pct}% complete</div></div>
-    <div class="stat-card"><div class="stat-label">In Progress</div><div class="stat-value" style="color:#378add">${inprog}</div><div class="stat-sub">active now</div></div>
-    <div class="stat-card"><div class="stat-label">Blocked</div><div class="stat-value" style="color:#e24b4a">${blocked}</div><div class="stat-sub">needs attention</div></div>`;
+  document.getElementById('st-total').textContent=TASKS.length;
+  document.getElementById('st-done').textContent=done;
+  document.getElementById('st-pct').textContent=pct+'% complete';
+  document.getElementById('st-prog').textContent=prog;
+  document.getElementById('st-block').textContent=blk;
 }
-function renderTasks(){
+function renderBoard(){
   const filtered=getFiltered();
   const groups={};
   filtered.forEach(t=>{if(!groups[t.ws])groups[t.ws]=[];groups[t.ws].push(t);});
   let html='';
-  if(!filtered.length){html='<div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--mono)">No tasks match current filters</div>';}
+  if(!filtered.length){html='<div style="text-align:center;padding:48px;color:#a19f9d;font-size:14px">No tasks match the current filters</div>';}
   else{
     Object.keys(groups).sort().forEach(ws=>{
-      const labels={WS1:'Infrastructure',WS2:'Automation',WS3:'Portal',WS4:'WhatsApp AI',WS5:'Testing/Launch',WS6:'Compliance'};
-      html+=`<div class="section-header"><span style="color:${wsColor(ws)}">${ws}</span> ${labels[ws]||''}</div>`;
+      html+=`<div class="ws-section">
+        <div class="ws-header" onclick="toggleWS(this)">
+          <span style="width:10px;height:10px;border-radius:50%;background:${WS_COLORS[ws]};display:inline-block;flex-shrink:0"></span>
+          <span class="ws-title">${ws} — ${WS_LABELS[ws]||''}</span>
+          <span class="ws-badge">${groups[ws].length} task${groups[ws].length!==1?'s':''}</span>
+          <span class="ws-chevron open">&#9658;</span>
+        </div>
+        <div class="task-list">`;
       groups[ws].forEach(t=>{
-        html+=`<div class="task-card" onclick="this.classList.toggle('selected')">
-          <span class="priority-dot p-${t.priority}"></span>
-          <span class="ws-code">${t.id}</span>
-          <div class="task-name">${t.name}<small>${t.desc}</small></div>
-          <span class="assignee-pill ${assigneeClass(t.assignee)}">${t.assignee.split(' ')[0]}</span>
-          <button class="status-badge ${statusClass(t.status)}" onclick="event.stopPropagation();cycleStatus('${t.id}')">${statusLabel(t.status)}</button>
+        html+=`<div class="task-row" onclick="this.classList.toggle('selected')">
+          <div class="pri-bar" style="background:${PRI_COLOR[t.priority]}"></div>
+          <div class="task-info">
+            <div class="task-name">${t.name}</div>
+            <div class="task-desc">${t.id} &middot; ${t.desc}</div>
+          </div>
+          <span class="assignee-chip ${t.assignee==='Jose Negron'?'chip-jose':'chip-jabari'}">${t.assignee.split(' ')[0]}</span>
+          <button class="status-pill ${STATUS_CLASS[t.status]}" onclick="event.stopPropagation();cycleStatus('${t.id}')">${STATUS_LABEL[t.status]}</button>
         </div>`;
       });
+      html+=`</div></div>`;
     });
   }
-  document.getElementById('task-list').innerHTML=html;
+  document.getElementById('task-board').innerHTML=html;
+}
+function toggleWS(el){
+  const list=el.nextElementSibling;
+  const chev=el.querySelector('.ws-chevron');
+  if(list.style.display==='none'){list.style.display='';chev.classList.add('open');}
+  else{list.style.display='none';chev.classList.remove('open');}
 }
 function cycleStatus(id){
   const order=['todo','inprogress','waiting','blocked','done'];
   const t=TASKS.find(x=>x.id===id);
   if(!t)return;
   t.status=order[(order.indexOf(t.status)+1)%order.length];
-  renderStats();renderTasks();
+  renderStats();renderBoard();
 }
 function renderKLV(){
   document.getElementById('klv-grid').innerHTML=KLV.map(k=>`
@@ -303,56 +379,81 @@ function renderKLV(){
       <div class="klv-id">${k.id}</div>
       <div class="klv-name">${k.name}</div>
       <div class="klv-desc">${k.desc}</div>
-      <div style="margin-bottom:8px"><span class="tag">${k.trigger}</span></div>
-      <div class="klv-footer">
+      <div class="klv-trigger">${k.trigger}</div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" style="width:${k.pct}%"></div></div>
         <span class="progress-pct">${k.pct}%</span>
-        <div class="progress-bar"><div class="progress-fill" style="width:${k.pct}%"></div></div>
-        <span class="progress-pct">${k.pct===100?'DONE':'BUILD'}</span>
       </div>
     </div>`).join('');
 }
-function filterWS(ws){wsFilter=ws;document.querySelectorAll('.sidebar-section:first-child .sidebar-item').forEach((el,i)=>{el.classList.toggle('active',i===['all','WS1','WS2','WS3','WS4','WS5','WS6'].indexOf(ws));});renderTasks();}
-function filterAssignee(a){assigneeFilter=a;renderTasks();}
-function filterStatus(s){statusFilter=s;renderTasks();}
-function switchView(v){
-  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
-  document.getElementById('view-'+v).classList.add('active');
-  document.querySelectorAll('.nav-tab')[['tasks','klv','ai'].indexOf(v)].classList.add('active');
-  if(v==='ai'){updateKeyStatus();}
+function filterWS(ws,el){
+  wsF=ws;
+  document.querySelectorAll('.sidebar-section:first-child .sidebar-item').forEach(e=>e.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderBoard();
 }
-const SYSTEM_PROMPT=`You are Claude, embedded in KLV.PM — the internal project management tool for Klever BK LLC, an AI-powered bookkeeping managed service for small businesses in the US Virgin Islands and Puerto Rico. Founders: Jose Negron (technical builder) and Jabari Blash (legal/business). 13 KLV Cloud Functions on Google Cloud Functions 2nd gen. Firebase Firestore, Auth, Hosting. React+Vite+TypeScript portal. Xero, HubDoc, Stripe, Twilio WhatsApp, Claude API, DocuSign, Google Secret Manager. KLV-00 done, KLV-01 in progress, all others todo. WS601 USVI business license is blocked — gates all legal docs. WS104/WS105 waiting on Jabari. 30-day build target Day 28 go-live with 3 pilot clients. Be concise and specific. Keep responses under 150 words unless asked for detail.`;
-let aiHistory=[];
+function filterAssignee(a,el){
+  asF=a;
+  document.querySelectorAll('.sidebar-section:nth-child(2) .sidebar-item').forEach(e=>e.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderBoard();
+}
+function filterStatus(s,el){
+  stF=s;
+  document.querySelectorAll('.filter-bar .filter-chip').forEach(e=>e.classList.remove('active'));
+  if(el&&el.classList.contains('filter-chip'))el.classList.add('active');
+  document.querySelectorAll('.sidebar-section:nth-child(3) .sidebar-item').forEach(e=>e.classList.remove('active'));
+  if(el&&el.classList.contains('sidebar-item'))el.classList.add('active');
+  renderBoard();
+}
+function switchView(v,el){
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  if(el)el.classList.add('active');
+  if(v==='ai'&&apiKey){document.getElementById('api-key').value=apiKey;updateKeyStatus();}
+}
+function saveKey(){
+  apiKey=document.getElementById('api-key').value.trim();
+  localStorage.setItem('klv_api_key',apiKey);
+  updateKeyStatus();
+}
+function updateKeyStatus(){
+  const el=document.getElementById('key-status');
+  if(!el)return;
+  el.textContent=apiKey?'Key saved':'';
+  el.style.color=apiKey?'#107c10':'';
+}
+const SYS=`You are Claude embedded in KLV.PM, the internal project management tool for Klever BK LLC — an AI-powered bookkeeping managed service for small businesses in the US Virgin Islands and Puerto Rico. Founders: Jose Negron (technical builder) and Jabari Blash (legal/business). 13 KLV Cloud Functions on Google Cloud Functions 2nd gen. Firebase Firestore, Auth, Hosting. React+Vite+TypeScript portal. Xero, HubDoc, Stripe, Twilio WhatsApp, Claude API (claude-sonnet-4-20250514), DocuSign, Google Secret Manager. KLV-00 done, KLV-01 in progress, all others todo. WS601 USVI business license is blocked — gates all legal docs. WS104/WS105 waiting on Jabari. 30-day build target Day 28 go-live with 3 pilot clients. Be concise. Keep responses under 150 words unless asked for detail.`;
 async function sendAI(){
-  if(!apiKey){addMsg('Please enter your Anthropic API key above first.','ai');return;}
-  const input=document.getElementById('ai-input');
-  const msg=input.value.trim();
-  if(!msg)return;
-  input.value='';
+  if(!apiKey){addMsg('Please save your API key first.','ai');return;}
+  const inp=document.getElementById('chat-in');
+  const msg=inp.value.trim();if(!msg)return;
+  inp.value='';
   addMsg(msg,'user');
-  document.getElementById('ai-send').disabled=true;
-  const typing=addTyping();
+  document.getElementById('ai-btn').disabled=true;
+  const tp=addTyping();
   aiHistory.push({role:'user',content:msg});
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYSTEM_PROMPT,messages:aiHistory.slice(-10)})
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:aiHistory.slice(-10)})
     });
     const data=await res.json();
-    typing.remove();
-    const reply=data.content?.[0]?.text||data.error?.message||'Error getting response.';
+    tp.remove();
+    const reply=data.content?.[0]?.text||data.error?.message||'Error.';
     aiHistory.push({role:'assistant',content:reply});
     addMsg(reply,'ai');
-  }catch(e){typing.remove();addMsg('Connection error: '+e.message,'ai');}
-  document.getElementById('ai-send').disabled=false;
+  }catch(e){tp.remove();addMsg('Connection error: '+e.message,'ai');}
+  document.getElementById('ai-btn').disabled=false;
 }
 function addMsg(text,role){
   const el=document.createElement('div');
-  el.className=`msg msg-${role}`;
-  if(role==='ai')el.innerHTML=`<div class="msg-label">CLAUDE</div>${text}`;
+  el.className='msg msg-'+role;
+  if(role==='ai')el.innerHTML='<div class="msg-ai-label">Claude</div>'+text;
   else el.textContent=text;
-  const msgs=document.getElementById('ai-messages');
+  const msgs=document.getElementById('chat-msgs');
   msgs.appendChild(el);
   el.scrollIntoView({behavior:'smooth'});
   return el;
@@ -360,14 +461,12 @@ function addMsg(text,role){
 function addTyping(){
   const el=document.createElement('div');
   el.className='msg msg-ai';
-  el.innerHTML='<div class="msg-label">CLAUDE</div><div class="typing"><span></span><span></span><span></span></div>';
-  document.getElementById('ai-messages').appendChild(el);
+  el.innerHTML='<div class="msg-ai-label">Claude</div><div class="typing"><span></span><span></span><span></span></div>';
+  document.getElementById('chat-msgs').appendChild(el);
   el.scrollIntoView({behavior:'smooth'});
   return el;
 }
-function sendQuick(q){document.getElementById('ai-input').value=q;sendAI();}
-renderStats();renderTasks();renderKLV();
-if(apiKey){const i=document.getElementById('api-key-input');if(i){i.value=apiKey;updateKeyStatus();}}
+function sendQ(q){document.getElementById('chat-in').value=q;sendAI();}
+renderStats();renderBoard();renderKLV();
+if(apiKey){document.getElementById('api-key').value=apiKey;updateKeyStatus();}
 </script>
-</body>
-</html>
